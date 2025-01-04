@@ -32,13 +32,8 @@ function groups.get(contrast)
       purple = colors.purple,
     }
 
-    if vim.o.background == "dark" then
-      terminal.black = colors.fg
-      terminal.white = colors.bg3
-    else
-      terminal.black = colors.bg3
-      terminal.white = colors.fg
-    end
+    terminal.black = colors.bg3
+    terminal.white = colors.fg0
 
     -- Consider adding configuration options for this
     vim.g.terminal_color_0 = terminal.black
