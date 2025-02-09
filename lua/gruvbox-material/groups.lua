@@ -1,4 +1,3 @@
-local ColorUtility = require("gruvbox-material.color_utility")
 local utils = require("gruvbox-material.utils")
 
 local groups = {}
@@ -40,22 +39,22 @@ function groups.get(contrast)
   vim.g.terminal_color_8 = terminal.black
 
   vim.g.terminal_color_1 = terminal.red
-  vim.g.terminal_color_9 = ColorUtility.blend_fg(terminal.red, 0.5)
+  vim.g.terminal_color_9 = utils.blend(terminal.red, terminal.black, 0.5)
 
   vim.g.terminal_color_2 = terminal.green
-  vim.g.terminal_color_10 = ColorUtility.blend_fg(terminal.green, 0.5)
+  vim.g.terminal_color_10 = utils.blend(terminal.green, terminal.black, 0.5)
 
   vim.g.terminal_color_3 = terminal.yellow
-  vim.g.terminal_color_11 = ColorUtility.blend_fg(terminal.yellow, 0.5)
+  vim.g.terminal_color_11 = utils.blend(terminal.yellow, terminal.black, 0.5)
 
   vim.g.terminal_color_4 = terminal.blue
-  vim.g.terminal_color_12 = ColorUtility.blend_fg(terminal.blue, 0.5)
+  vim.g.terminal_color_12 = utils.blend(terminal.blue, terminal.black, 0.5)
 
   vim.g.terminal_color_5 = terminal.purple
-  vim.g.terminal_color_13 = ColorUtility.blend_fg(terminal.purple, 0.5)
+  vim.g.terminal_color_13 = utils.blend(terminal.purple, terminal.black, 0.5)
 
   vim.g.terminal_color_6 = terminal.cyan
-  vim.g.terminal_color_14 = ColorUtility.blend_fg(terminal.cyan, 0.5)
+  vim.g.terminal_color_14 = utils.blend(terminal.cyan, terminal.black, 0.5)
 
   vim.g.terminal_color_7 = terminal.white
   vim.g.terminal_color_15 = terminal.white
@@ -107,11 +106,11 @@ function groups.get(contrast)
     BlueSign = { fg = colors.blue, bg = colors.bg2 },
     PurpleSign = { fg = colors.purple, bg = colors.bg2 },
 
-    Type = { fg = colors.yellow }, -- int, long, char, etc.
+    Type = { fg = colors.blue }, -- int, long, char, etc.
     Typedef = { fg = colors.red }, -- A typedef
     StorageClass = { fg = colors.orange }, -- static, register, volatile, etc.
     Structure = { fg = colors.orange }, -- struct, union, enum, etc.
-    Constant = { fg = colors.aqua }, -- any constant
+    Constant = { fg = colors.fg0 }, -- any constant
     Character = { fg = colors.green }, -- any character constant: 'c', '\n'
     Number = { fg = colors.purple }, -- a number constant: 5
     Boolean = { fg = colors.purple }, -- a boolean constant: TRUE, false
@@ -417,7 +416,7 @@ function groups.get(contrast)
     TSLabel = { link = "Orange" }, -- For labels: `label:` in C and `:label:` in Lua.
     TSMath = { fg = "Blue" },
     TSMethod = { link = "Green" },
-    TSNamespace = { link = "Yellow" }, -- For identifiers referring to modules and namespaces.
+    TSNamespace = { link = "Purple" }, -- For identifiers referring to modules and namespaces.
     TSNone = { link = "Fg" },
     TSNumber = { link = "Purple" }, -- For all numbers
     TSOperator = { link = "Orange" }, -- For any operator: `+`, but also `->` and `*` in C.
@@ -438,7 +437,7 @@ function groups.get(contrast)
     TSTag = { link = "Orange" }, -- Tags like html tag names.
     TSTagDelimiter = { link = "Green" }, -- Tag delimiter like `<` `>` `/`
     TSText = { link = "Green" }, -- For strings considered text in a markup language.
-    TSType = { link = "Yellow" }, -- For types.
+    TSType = { link = "Blue" }, -- For types.
     TSTypeBuiltin = { link = "Yellow" }, -- For builtin types.
     TSURI = { link = "markdownUrl" }, -- Any URI like a link or email.
     TSUnderline = { underline = true },
@@ -449,29 +448,29 @@ function groups.get(contrast)
     -- https://github.com/nvim-treesitter/nvim-treesitter/blob/master/CONTRIBUTING.md#highlights)
 
     -- identifiers
-    ["@variable"] = { link = "Blue" },
-    ["@variable.builtin"] = { link = "@variable" },
+    ["@variable"] = { link = "Fg" },
+    ["@variable.builtin"] = { link = "Purple" },
     ["@variable.parameter"] = { link = "@variable" },
     ["@variable.parameter.builtin"] = { link = "@variable.builtin" },
     ["@variable.member"] = { link = "@variable" },
 
-    ["@constant"] = { link = "Aqua" },
-    ["@constant.builtin"] = { link = "Yellow" },
+    ["@constant"] = { link = "Constant" },
+    ["@constant.builtin"] = { link = "Purple" },
     ["@constant.macro"] = { link = "Blue" },
 
-    ["@module"] = { link = "Blue" },
+    ["@module"] = { link = "Aqua" },
     ["@module.builtin"] = { link = "@module" },
 
     ["@label"] = { link = "Orange" },
 
     -- literals
-    ["@string"] = { link = "Aqua" },
+    ["@string"] = { link = "Yellow" },
     ["@string.documentation"] = { link = "Comment" },
     ["@string.regexp"] = { link = "Green" },
     ["@string.escape"] = { link = "Yellow" },
     ["@string.special"] = { link = "@string" },
     ["@string.special.symbol"] = { link = "@string" },
-    ["@string.special.url"] = { link = "Yellow" },
+    ["@string.special.url"] = { link = "Yellow", underline = true },
     ["@string.special.path"] = { link = "@string" },
 
     ["@character"] = { link = "Aqua" },
@@ -483,13 +482,14 @@ function groups.get(contrast)
     ["@number.float"] = { link = "@number" },
 
     -- types
-    ["@type"] = { link = "Yellow" },
+    ["@type"] = { link = "Blue" },
     ["@type.builtin"] = { link = "@type" },
     ["@type.definition"] = { link = "@type" },
+    ["@type.qualifier"] = { link = "Orange" },
 
     ["@attribute"] = { link = "Purple" },
     ["@attribute.builtin"] = { link = "@attribute" },
-    ["@property"] = { link = "Green" },
+    ["@property"] = { link = "Fg" },
 
     -- functions
     ["@function"] = { link = "Green" },
@@ -509,14 +509,14 @@ function groups.get(contrast)
     ["@keyword.function"] = { link = "@keyword" },
     ["@keyword.operator"] = { link = "@keyword" },
     ["@keyword.import"] = { link = "@keyword" },
-    ["@keyword.type"] = { link = "@keyword" },
-    ["@keyword.modifier"] = { link = "@keyword" },
+    ["@keyword.type"] = { link = "Blue" },
+    ["@keyword.modifier"] = { link = "Orange" },
     ["@keyword.repeat"] = { link = "@keyword" },
     ["@keyword.return"] = { link = "@keyword" },
     ["@keyword.debug"] = { link = "@keyword" },
     ["@keyword.exception"] = { link = "@keyword" },
 
-    ["@keyword.conditional"] = { link = "Red" },
+    ["@keyword.conditional"] = { link = "Orange" },
     ["@keyword.conditional.ternary"] = { link = "@keyword.conditional" },
 
     ["@keyword.directive"] = { link = "Red" },
@@ -582,6 +582,12 @@ function groups.get(contrast)
     ["@text.title.4.marker.markdown"] = { link = "@markup.heading.4" },
     ["@text.title.5.marker.markdown"] = { link = "@markup.heading.5" },
     ["@text.title.6.marker.markdown"] = { link = "@markup.heading.6" },
+
+    -- lsp highlights
+    ["@lsp.mod.deprecated"] = { fg = colors.grey0, strikethrough = true },
+    ["@lsp.mod.constructor"] = { link = "Green" },
+    -- priority order issue with this one
+    -- ["@lsp.mod.readonly"] = { fg = utils.blend(colors.yellow, colors.fg0, 0.5), italic = true },
 
     ---------------------
     -- Plugin specific --
